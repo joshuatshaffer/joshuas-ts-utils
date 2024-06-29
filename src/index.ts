@@ -6,3 +6,4 @@ export * from "./lazyPromise";
 export * from "./makeRecord";
 export * from "./omitUndefined";
 export * from "./sleep";
+export * from "./uri";
