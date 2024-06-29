@@ -4,6 +4,7 @@ import {
   iterFilter,
   iterFlatMap,
   iterMap,
+  iterZip,
 } from "./tree-shakable";
 
 class IterableWithUtils<T> implements Iterable<T> {
@@ -55,6 +56,10 @@ class IterableWithUtils<T> implements Iterable<T> {
    */
   entriesBigint() {
     return new IterableWithUtils(iterEntriesBigint(this.values));
+  }
+
+  zip<const U extends readonly Iterable<unknown>[]>(...otherIterables: U) {
+    return new IterableWithUtils(iterZip(this.values, ...otherIterables));
   }
 
   toArray() {

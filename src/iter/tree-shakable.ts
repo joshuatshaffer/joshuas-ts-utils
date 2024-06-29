@@ -83,3 +83,23 @@ export function* iterEntriesBigint<T>(
     index++;
   }
 }
+
+export type IterZipValue<T extends readonly Iterable<unknown>[]> = {
+  [K in keyof T]: T[K] extends Iterable<infer U> ? U : never;
+};
+
+export function* iterZip<const T extends readonly Iterable<unknown>[]>(
+  ...iterables: T
+): IterableIterator<IterZipValue<T>> {
+  const iterators = iterables.map((iterable) => iterable[Symbol.iterator]());
+
+  while (true) {
+    const results = iterators.map((iterator) => iterator.next());
+
+    if (results.some((result) => result.done)) {
+      break;
+    }
+
+    yield results.map((result) => result.value) as IterZipValue<T>;
+  }
+}
