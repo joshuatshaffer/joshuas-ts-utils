@@ -2,6 +2,7 @@ export * from "./attempt";
 export * from "./IndexableUnknown";
 export * from "./isNullish";
 export * from "./isPromiseLike";
+export * from "./iter";
 export * from "./lazyPromise";
 export * from "./makeRecord";
 export * from "./omitUndefined";
