@@ -1,5 +1,6 @@
 export * from "./attempt";
 export * from "./detailedEntries";
+export * from "./detailedFromEntries";
 export * from "./IndexableUnknown";
 export * from "./isNullish";
 export * from "./isPromiseLike";
