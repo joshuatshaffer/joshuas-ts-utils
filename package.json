@@ -1,7 +1,22 @@
 {
+  "name": "jtsu",
+  "description": "Joshua's TypeScript Utilities",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshuatshaffer/jtsu.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "test": "vitest",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf ./dist"
   },
   "devDependencies": {
     "@types/node": "20.14.9",
