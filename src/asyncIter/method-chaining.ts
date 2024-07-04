@@ -1,5 +1,5 @@
 import {
-  MaybeAsyncIterable,
+  MultisyncIterable,
   asyncIterConcat,
   asyncIterEntries,
   asyncIterEntriesBigint,
@@ -42,7 +42,7 @@ class AsyncIterableWithUtils<T> implements AsyncIterable<T> {
   /**
    * Like {@link Array.flatMap}, but for any async iterable.
    */
-  flatMap<U>(fn: (value: T) => U | MaybeAsyncIterable<U>) {
+  flatMap<U>(fn: (value: T) => U | MultisyncIterable<U>) {
     return new AsyncIterableWithUtils(asyncIterFlatMap(this.values, fn));
   }
 
@@ -60,7 +60,7 @@ class AsyncIterableWithUtils<T> implements AsyncIterable<T> {
     return new AsyncIterableWithUtils(asyncIterEntriesBigint(this.values));
   }
 
-  zip<const U extends readonly MaybeAsyncIterable<unknown>[]>(
+  zip<const U extends readonly MultisyncIterable<unknown>[]>(
     ...otherIterables: U
   ) {
     return new AsyncIterableWithUtils(
@@ -71,7 +71,7 @@ class AsyncIterableWithUtils<T> implements AsyncIterable<T> {
   /**
    * Like {@link Array.concat}, but for any async iterable.
    */
-  concat(...otherIterables: MaybeAsyncIterable<T>[]) {
+  concat(...otherIterables: MultisyncIterable<T>[]) {
     return new AsyncIterableWithUtils(
       asyncIterConcat(this.values, ...otherIterables)
     );

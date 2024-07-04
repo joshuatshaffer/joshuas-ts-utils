@@ -1,7 +1,7 @@
 import { isAsyncIterable } from "../isAsyncIterable";
 import { isIterable } from "../isIterable";
 
-export type MaybeAsyncIterable<T> = Iterable<T> | AsyncIterable<T>;
+export type MultisyncIterable<T> = Iterable<T> | AsyncIterable<T>;
 
 /**
  * Like {@link Array.map}, but for any async iterable.
@@ -10,7 +10,7 @@ export type MaybeAsyncIterable<T> = Iterable<T> | AsyncIterable<T>;
  * use `asyncIterMap(asyncIterEntries(values), ([index, value]) => {...})`.
  */
 export async function* asyncIterMap<T, U>(
-  values: MaybeAsyncIterable<T>,
+  values: MultisyncIterable<T>,
   fn: (value: T) => U
 ): AsyncIterableIterator<U> {
   for await (const value of values) {
@@ -22,17 +22,17 @@ export async function* asyncIterMap<T, U>(
  * Like {@link Array.filter}, but for any async iterable.
  */
 export function asyncIterFilter<T, S extends T>(
-  values: MaybeAsyncIterable<T>,
+  values: MultisyncIterable<T>,
   predicate: (value: T) => value is S
 ): AsyncIterableIterator<S>;
 
 export function asyncIterFilter<T>(
-  values: MaybeAsyncIterable<T>,
+  values: MultisyncIterable<T>,
   predicate: (value: T) => boolean
 ): AsyncIterableIterator<T>;
 
 export async function* asyncIterFilter<T>(
-  values: MaybeAsyncIterable<T>,
+  values: MultisyncIterable<T>,
   predicate: (value: T) => boolean
 ): AsyncIterableIterator<T> {
   for await (const value of values) {
@@ -46,7 +46,7 @@ export async function* asyncIterFilter<T>(
  * Like {@link Array.flatMap}, but for any async iterable.
  */
 export async function* asyncIterFlatMap<T, U>(
-  values: MaybeAsyncIterable<T>,
+  values: MultisyncIterable<T>,
   fn: (value: T) => U | AsyncIterable<U>
 ): AsyncIterableIterator<U> {
   for await (const value of values) {
@@ -63,7 +63,7 @@ export async function* asyncIterFlatMap<T, U>(
  * Like {@link Array.entries}, but for any async iterable.
  */
 export async function* asyncIterEntries<T>(
-  values: MaybeAsyncIterable<T>
+  values: MultisyncIterable<T>
 ): AsyncIterableIterator<[index: number, value: T]> {
   let index = 0;
   for await (const value of values) {
@@ -76,7 +76,7 @@ export async function* asyncIterEntries<T>(
  * Like {@link asyncIterEntries}, but uses a bigint for the index.
  */
 export async function* asyncIterEntriesBigint<T>(
-  values: MaybeAsyncIterable<T>
+  values: MultisyncIterable<T>
 ): AsyncIterableIterator<[index: bigint, value: T]> {
   let index = 0n;
   for await (const value of values) {
@@ -85,12 +85,12 @@ export async function* asyncIterEntriesBigint<T>(
   }
 }
 
-export type IterZipValue<T extends readonly MaybeAsyncIterable<unknown>[]> = {
-  [K in keyof T]: T[K] extends MaybeAsyncIterable<infer U> ? U : never;
+export type IterZipValue<T extends readonly MultisyncIterable<unknown>[]> = {
+  [K in keyof T]: T[K] extends MultisyncIterable<infer U> ? U : never;
 };
 
 export async function* asyncIterZip<
-  const T extends readonly MaybeAsyncIterable<unknown>[],
+  const T extends readonly MultisyncIterable<unknown>[],
 >(...iterables: T): AsyncIterableIterator<IterZipValue<T>> {
   const iterators = iterables.map((iterable) =>
     isIterable(iterable)
@@ -115,7 +115,7 @@ export async function* asyncIterZip<
  * Like {@link Array.concat}, but for any async iterable.
  */
 export async function* asyncIterConcat<T>(
-  ...iterables: MaybeAsyncIterable<T>[]
+  ...iterables: MultisyncIterable<T>[]
 ): AsyncIterableIterator<T> {
   for (const iterable of iterables) {
     yield* iterable;
