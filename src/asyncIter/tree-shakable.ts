@@ -85,13 +85,15 @@ export async function* asyncIterEntriesBigint<T>(
   }
 }
 
-export type IterZipValue<T extends readonly MultisyncIterable<unknown>[]> = {
+export type MultisyncIterZipValue<
+  T extends readonly MultisyncIterable<unknown>[],
+> = {
   [K in keyof T]: T[K] extends MultisyncIterable<infer U> ? U : never;
 };
 
 export async function* asyncIterZip<
   const T extends readonly MultisyncIterable<unknown>[],
->(...iterables: T): AsyncIterableIterator<IterZipValue<T>> {
+>(...iterables: T): AsyncIterableIterator<MultisyncIterZipValue<T>> {
   const iterators = iterables.map((iterable) =>
     isIterable(iterable)
       ? iterable[Symbol.iterator]()
@@ -107,7 +109,7 @@ export async function* asyncIterZip<
       break;
     }
 
-    yield results.map((result) => result.value) as IterZipValue<T>;
+    yield results.map((result) => result.value) as MultisyncIterZipValue<T>;
   }
 }
 
