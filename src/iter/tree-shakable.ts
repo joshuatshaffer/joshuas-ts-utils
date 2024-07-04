@@ -101,3 +101,14 @@ export function* iterZip<const T extends readonly Iterable<unknown>[]>(
     yield results.map((result) => result.value) as IterZipValue<T>;
   }
 }
+
+/**
+ * Like {@link Array.concat}, but for any iterable.
+ */
+export function* iterConcat<T>(
+  ...iterables: Iterable<T>[]
+): IterableIterator<T> {
+  for (const iterable of iterables) {
+    yield* iterable;
+  }
+}

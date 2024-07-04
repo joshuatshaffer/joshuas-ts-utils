@@ -1,4 +1,5 @@
 import {
+  iterConcat,
   iterEntries,
   iterEntriesBigint,
   iterFilter,
@@ -60,6 +61,13 @@ class IterableWithUtils<T> implements Iterable<T> {
 
   zip<const U extends readonly Iterable<unknown>[]>(...otherIterables: U) {
     return new IterableWithUtils(iterZip(this.values, ...otherIterables));
+  }
+
+  /**
+   * Like {@link Array.concat}, but for any iterable.
+   */
+  concat(...otherIterables: Iterable<T>[]) {
+    return new IterableWithUtils(iterConcat(this.values, ...otherIterables));
   }
 
   toArray() {
